@@ -17,29 +17,23 @@ find_package(unitree_api REQUIRED)
 
 set(TARGET_NAME cango_driver)
 
-add_executable(read_go2_state_node src/read_go2_state.cpp)
-target_include_directories(read_go2_state_node PUBLIC include)
-ament_target_dependencies(read_go2_state_node rclcpp std_msgs cango_msgs unitree_go unitree_api)
-
-add_executable(go2_mode_ctrl_node 
-  src/go2_mode_ctrl.cpp 
-  src/common/ros2_sport_client.cpp
-)
-target_include_directories(go2_mode_ctrl_node PUBLIC include)
-ament_target_dependencies(go2_mode_ctrl_node rclcpp std_msgs cango_msgs unitree_go unitree_api)
-
-add_executable(cango_driver_node 
+add_executable(${TARGET_NAME}
   src/cango_driver.cpp
   src/common/ros2_sport_client.cpp
 )
-target_include_directories(cango_driver_node PUBLIC include)
-ament_target_dependencies(cango_driver_node rclcpp std_msgs cango_msgs unitree_go unitree_api)
+
+target_include_directories(${TARGET_NAME} PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  ${YAML_CPP_INCLUDE_DIRS}
+)
+
+ament_target_dependencies(${TARGET_NAME}
+  rclcpp std_msgs cango_msgs unitree_go unitree_api)
 
 
-install(TARGETS 
-  read_go2_state_node 
-  go2_mode_ctrl_node 
-  cango_driver_node
+install(TARGETS
+  ${TARGET_NAME}
   DESTINATION lib/${PROJECT_NAME}
 )
 
