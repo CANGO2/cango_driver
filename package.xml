@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+
+  <name>cango_driver</name>
+  <version>0.0.0</version>
+  <description>cango driver - connecting go2 and cango system</description>
+
+  <maintainer email="sunkyoung.lee@TODO.com">Sunkyoung LEE</maintainer>
+  <author email="sunkyoung.lee@TODO.com">Sunkyoung LEE</author>
+
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <depend>cango_msgs</depend>
+  <depend>unitree_go</depend>
+  <depend>unitree_api</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+</package>
