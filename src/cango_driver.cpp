@@ -8,7 +8,7 @@ void CangoDriver::setup() {
   this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
 
   control_sub = this->create_subscription<cango_msgs::msg::RobotControl>(
-      "/cango_control", 10,
+      "/master2control", 10,
       std::bind(&CangoDriver::controlCallback, this, std::placeholders::_1));
 
   /////////////Publish request to go2////////////////////
@@ -100,9 +100,19 @@ void CangoDriver::state_cb(unitree_go::msg::LowState::SharedPtr data) {
 
 void CangoDriver::controlCallback(
     const cango_msgs::msg::RobotControl::ConstSharedPtr &msg) {
+  if(msg->robot_up == true){
+    robot_up();
+    return;
+  }
   target_vx = msg->linear_speed;
   target_vy = msg->side_speed;
   target_vyaw = msg->ang_speed;
+}
+
+void CangoDriver::robot_up() {
+  unitree_api::msg::Request gait_req;
+  sport_req->StandUp(gait_req);
+  req_puber->publish(gait_req);
 }
 
 void CangoDriver::timerCallback() {
@@ -110,13 +120,13 @@ void CangoDriver::timerCallback() {
 
   try {
     if (!gait_set) {
-      unitree_api::msg::Request gait_req;
+      // unitree_api::msg::Request gait_req;
       unitree_api::msg::Request gait_req1;
       unitree_api::msg::Request gait_req2;
       unitree_api::msg::Request gait_req3;
 
-      sport_req->StandUp(gait_req);
-      req_puber->publish(gait_req);
+      // sport_req->StandUp(gait_req);
+      // req_puber->publish(gait_req);
 
       sport_req->BalanceStand(gait_req1);
       req_puber->publish(gait_req1);
