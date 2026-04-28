@@ -63,7 +63,7 @@ void SportClient::RiseSit(unitree_api::msg::Request &req)
 void SportClient::SwitchGait(unitree_api::msg::Request &req, int d)
 {
     nlohmann::json js;
-    js["data"] = d;
+    js["data"] = 3;
     req.header.identity.api_id = ROBOT_SPORT_API_ID_SWITCHGAIT;
     req.parameter = js.dump();
 }

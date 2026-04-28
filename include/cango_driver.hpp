@@ -52,7 +52,10 @@ class CangoDriver : public rclcpp::Node {
   void state_cb(unitree_go::msg::LowState::SharedPtr data);
   rclcpp::TimerBase::SharedPtr timer_;
 
-  bool gait_set = false;
+  bool start_set = false;
+  bool start_set2 = false;
+  bool mode_set = false;
+  bool gait_set_ = false;
   float target_vx = 0.0f;
   float target_vy = 0.0f;
   float target_vyaw = 0.0f;
