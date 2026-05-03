@@ -29,27 +29,29 @@ void CangoDriver::setup()
 }
 
 void CangoDriver::controlCallback(const cango_msgs::msg::RobotControl::ConstSharedPtr &msg)
-{
-    std::cout << "Received control command: linear_speed=" << msg->linear_speed << std::endl;
+{  
+    robot_up = msg->robot_up;
     target_vx = msg->linear_speed;
     target_vy = -msg->side_speed;
     target_vyaw = -msg->ang_speed;
+}
+
+void CangoDriver::robot_up()
+{
+    unitree_api::msg::Request gait_req;
+    sport_req->StandUp(gait_req);
+    req_puber->publish(gait_req);
 }
 
 void CangoDriver::timerCallback()
 {
     try
     {
-        // if (!start_set)
-        // {
-        //     RCLCPP_WARN(this->get_logger(), "start_set ...");
-
-        //     unitree_api::msg::Request gait_req;
-        //     sport_req->StandUp(gait_req);
-        //     req_puber->publish(gait_req);
-
-        start_set = true;
-        // }
+        if(robot_up && !start_set){
+            robot_up();
+            start_set = true;
+            return;
+        }
         if (start_set && !start_set2)
         {
             RCLCPP_WARN(this->get_logger(), "start_set2 ...");
