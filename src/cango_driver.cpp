@@ -36,7 +36,7 @@ void CangoDriver::controlCallback(const cango_msgs::msg::RobotControl::ConstShar
     target_vyaw = -msg->ang_speed;
 }
 
-void CangoDriver::robot_up()
+void CangoDriver::robot_up_motion()
 {
     unitree_api::msg::Request gait_req;
     sport_req->StandUp(gait_req);
@@ -48,7 +48,7 @@ void CangoDriver::timerCallback()
     try
     {
         if(robot_up && !start_set){
-            robot_up();
+            robot_up_motion();
             start_set = true;
             return;
         }

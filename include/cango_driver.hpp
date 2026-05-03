@@ -38,7 +38,7 @@ class CangoDriver : public rclcpp::Node {
       const cango_msgs::msg::RobotControl::ConstSharedPtr& msg);
 
   void timerCallback();
-  void robot_up();
+  void robot_up_motion();
   bool robot_up = false;
  private:
   // with master
